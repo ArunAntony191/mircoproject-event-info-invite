@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="#" class="logo"><span class="blue-e">E</span>vent Hub</a> <!-- "Hub" no longer in span -->
+        <nav class="navbar">
+            <a href="#home">Home</a>
+            <a href="#events">Events</a>
+            <a href="#create-event">Create Event</a>
+            <a href="#register">Register</a>
+            <a href="#faqs">FAQs</a>
+            <a href="#contact">Contact</a>
+            <a href="#challenges">Challenges</a>
+        </nav>
+        <div class="mode-toggle" id="mode-icon">🌜</div>
+        <i class="fas fa-bars" id="menu-bars"></i>
+    </header>
+
+    <!-- Home Banner -->
+    <section class="home" id="home">
+        <div class="content">
+            <h1>Welcome to <span class="blue-e">E</span>vent Hub</h1> <!-- "Hub" no longer in span -->
+            <a href="#events" class="btn explore-btn">Explore Events</a>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section id="filter">
+        <select id="category">
+            <option value="All">All Events</option>
+            <option value="Concert">Concert</option>
+            <option value="Conference">Conference</option>
+            <option value="Exhibition">Exhibition</option>
+            <option value="Workshop">Workshop</option>
+            <option value="Festival">Festival</option>
+        </select>
+        <select id="sort">
+            <option value="asc">Upcoming</option>
+            <option value="desc">Past</option>
+        </select>
+        <input type="text" id="search" placeholder="Search Events">
+    </section>
+
+    <!-- Events Section -->
+    <section id="events">
+        <h1 class="heading" id="events-heading">Upcoming <span>Events</span></h1> <!-- Use .heading class -->
+        <div class="event-list" id="event-list"></div>
+    </section>
+
+    <!-- Create Event Section -->
+    <section id="create-event">
+        <h1 class="heading">Create an <span>Event</span></h1>
+        <form id="create-event-form">
+            <input type="text" id="event-name" placeholder="Event Name" required>
+            <select id="event-category" required>
+                <option value="" disabled selected>Select Category</option>
+                <option value="Concert">Concert</option>
+                <option value="Conference">Conference</option>
+                <option value="Exhibition">Exhibition</option>
+                <option value="Workshop">Workshop</option>
+                <option value="Festival">Festival</option>
+            </select>
+            <input type="date" id="event-date" required>
+            <input type="time" id="event-time" required>
+            <input type="text" id="event-location" placeholder="Location" required>
+            <textarea id="event-description" placeholder="Description" required></textarea>
+            <button type="submit" class="btn">Create Event</button>
+        </form>
+    </section>
+
+    <!-- Event Modal -->
+    <div id="event-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">×</span>
+            <h2 id="modal-title"></h2>
+            <div id="modal-details"></div>
+            <p id="modal-description"></p>
+            <button id="modal-register" class="btn">Register</button>
+            <button id="modal-invite" class="btn">Invite Friends</button>
+            <form id="invite-form" style="display: none;">
+                <input type="email" id="invite-email" placeholder="Friend's Email" required>
+                <textarea id="invite-message" placeholder="Optional Message"></textarea>
+                <button type="submit" class="btn">Send Invite</button>
+            </form>
+            <p id="invite-confirmation"></p>
+            <div id="modal-ratings">
+                <h3>Ratings & Reviews</h3>
+                <p>Average Rating: <span id="average-rating">0</span> (<span id="rating-count">0</span> votes)</p>
+                <div class="star-rating">
+                    <span class="star" data-value="1">★</span>
+                    <span class="star" data-value="2">★</span>
+                    <span class="star" data-value="3">★</span>
+                    <span class="star" data-value="4">★</span>
+                    <span class="star" data-value="5">★</span>
+                </div>
+                <textarea id="review-comment" placeholder="Leave a comment"></textarea>
+                <button id="submit-comment" class="btn">Submit</button>
+                <button id="clear-rating" class="btn clear-btn">Clear Ratings</button>
+                <div id="reviews-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmation-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <p id="confirmation-text"></p>
+        </div>
+    </div>
+
+    <!-- Celebration Overlay -->
+    <div id="celebration-overlay" class="celebration-overlay"></div>
+
+    <!-- Register Section -->
+    <section id="register">
+        <h1 class="heading">Register for an <span>Event</span></h1>
+        <form id="registration-form">
+            <input type="text" id="name" placeholder="Your Name" required>
+            <input type="email" id="email" placeholder="Your Email" required>
+            <input type="tel" id="phone" placeholder="Your Phone" required>
+            <select id="event" required>
+                <option value="" disabled selected>Select Event</option>
+            </select>
+            <button type="submit" class="btn">Register</button>
+        </form>
+    </section>
+
+    <!-- FAQs Section -->
+    <section id="faqs">
+        <h1 class="heading">Frequently Asked <span>Questions</span></h1>
+        <div class="faq-list">
+            <div class="faq-item">
+                <h4>How do I create an event?</h4>
+                <p>Go to the "Create Event" section, fill out the form with your event details, and submit!</p>
+            </div>
+            <div class="faq-item">
+                <h4>Can I edit or delete my events?</h4>
+                <p>Yes, user-created events can be edited or deleted from the event details view.</p>
+            </div>
+            <div class="faq-item">
+                <h4>How do challenges work?</h4>
+                <p>Complete tasks like attending events or inviting friends to earn badges!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h1 class="heading">Contact <span>Us</span></h1>
+        <form id="contact-form">
+            <input type="text" id="contact-name" placeholder="Your Name" required>
+            <input type="email" id="contact-email" placeholder="Your Email" required>
+            <input type="tel" id="contact-phone" placeholder="Your Phone" required>
+            <textarea id="contact-message" placeholder="Your Message" required></textarea>
+            <button type="submit" class="btn">Send Message</button>
+        </form>
+    </section>
+
+    <!-- Challenges Section -->
+    <section id="challenges">
+        <h1 class="heading">Your <span>Challenges</span></h1>
+        <div class="challenge-list" id="challenge-list"></div>
+    </section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="socials">
+        <a href="https://www.linkedin.com/in/arun-antony-varghese-4405192b9" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://github.com/ArunAntony191" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+    </div>
+    <p>
+        <a href="mailto:arunantonyvarghese2028@mca.ajce.in" style="color: var(--header-text); text-decoration: none;">
+            <i class="fas fa-envelope" style="margin-right: 0.5rem;"></i>
+        </a>
+        arunantonyvarghese2028@mca.ajce.in
+    </p>
+    <p>© 2025 <span class="blue-e">E</span>vent Hub. All rights reserved.</p>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>

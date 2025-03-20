@@ -1,0 +1,721 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;600;700&display=swap');
+
+:root {
+    --main-color: #2196F3;
+    --secondary-color: #0b7dda;
+    --delete-color: #ff4444;
+    --delete-hover: #cc0000;
+    --edit-color: #f1c40f;
+    --edit-hover: #e67e22;
+    --clear-color: #26a69a;
+    --clear-hover: #00796b;
+    --text-light: #eee;
+    --bg-color: #f9f9f9;
+    --text-color: #333;
+    --card-bg: #fff;
+    --event-bg: #e6f3fa;
+    --header-bg: #333;
+    --header-text: #fff;
+    --event-text: #1a3c5e;
+    --event-started: #d32f2f;
+    --description-text: #2e4a6d;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif;
+    text-transform: capitalize;
+    transition: .2s linear;
+}
+
+html {
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+body {
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+/* Header */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--header-bg) url('https://i.pinimg.com/originals/7d/2a/9f/7d2a9fca264faa93561f72b5fc885fec.gif') center/cover no-repeat;
+    padding: 1.5rem 9%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+}
+
+.header .logo {
+    color: var(--header-text); /* "vent Hub" in white */
+    font-size: 3rem;
+    font-weight: normal;
+    text-transform: uppercase;
+}
+
+.header .logo .blue-e {
+    color: var(--main-color); /* Only "E" is blue */
+}
+
+.header .navbar a {
+    color: var(--header-text);
+    font-size: 1.7rem;
+    margin-left: 2rem;
+    text-decoration: none;
+}
+
+.header .navbar a:hover {
+    color: var(--main-color);
+}
+
+.mode-toggle {
+    cursor: pointer;
+    font-size: 2rem;
+    color: var(--header-text);
+    margin-right: 2rem;
+}
+
+#menu-bars {
+    color: var(--header-text);
+    font-size: 3rem;
+    cursor: pointer;
+    display: none;
+}
+
+/* Home Banner */
+.home {
+    min-height: 100vh;
+    background: url('https://avatars.mds.yandex.net/get-pdb/1244951/90d8b02d-df61-4d34-861f-6a4ba8907524/orig') center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem 9%;
+}
+
+.home .content h1 {
+    font-size: 5rem; /* Unique to "Welcome to Event Hub" */
+    color: #fff; /* "Welcome to" and "vent Hub" in white */
+    margin-bottom: 2rem;
+}
+
+.home .content h1 .blue-e {
+    color: var(--main-color); /* Only "E" is blue */
+}
+
+.btn {
+    display: inline-block;
+    padding: 1rem 3rem;
+    background: linear-gradient(45deg, var(--main-color), var(--secondary-color));
+    color: #fff;
+    font-size: 1.7rem;
+    border-radius: .5rem;
+    cursor: pointer;
+    text-decoration: none;
+    margin-right: 1rem;
+}
+
+/* Heartbeat Animation for Explore Events Button */
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    14% { transform: scale(1.2); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.2); }
+    70% { transform: scale(1); }
+}
+
+.home .btn.explore-btn {
+    animation: heartbeat 1s infinite;
+}
+
+/* Apply heartbeat animation only to specific buttons on hover, excluding explore-btn */
+#create-event .btn:hover:not(.clear-btn),
+#registration-form .btn:hover:not(.clear-btn),
+#contact-form .btn:hover:not(.clear-btn),
+#invite-form .btn:hover,
+#modal-register:hover,
+#modal-invite:hover {
+    background: linear-gradient(45deg, var(--secondary-color), var(--main-color));
+    animation: heartbeat 1s infinite;
+}
+
+.delete-btn {
+    background: linear-gradient(45deg, var(--delete-color), var(--delete-hover));
+}
+
+.delete-btn:hover {
+    background: linear-gradient(45deg, var(--delete-hover), var(--delete-color));
+}
+
+.edit-btn {
+    background: linear-gradient(45deg, var(--edit-color), var(--edit-hover));
+}
+
+.edit-btn:hover {
+    background: linear-gradient(45deg, var(--edit-hover), var(--edit-color));
+}
+
+.clear-btn {
+    background: linear-gradient(45deg, var(--clear-color), var(--clear-hover));
+}
+
+.clear-btn:hover {
+    background: linear-gradient(45deg, var(--clear-hover), var(--clear-color));
+}
+
+#submit-comment {
+    background: linear-gradient(45deg, var(--main-color), var(--secondary-color));
+}
+
+#submit-comment:hover {
+    background: linear-gradient(45deg, var(--secondary-color), var(--main-color));
+}
+
+/* Full-Screen Celebration Overlay */
+.celebration-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1002;
+    pointer-events: none;
+}
+
+.confetti {
+    position: absolute;
+    width: 1rem;
+    height: 1rem;
+    background: var(--main-color);
+    border-radius: 50%;
+    animation: fall 3s linear forwards;
+}
+
+@keyframes fall {
+    0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}
+
+/* Filter Section */
+#filter {
+    padding: 2rem 9%;
+    text-align: center;
+    background: var(--card-bg);
+}
+
+#filter select,
+#filter input {
+    padding: 1rem;
+    font-size: 1.6rem;
+    margin: 0 1rem;
+    border-radius: .5rem;
+    border: 1px solid #ddd;
+}
+
+/* Events Section */
+#events {
+    padding: 5rem 9%;
+    background: var(--card-bg);
+}
+
+.heading {
+    text-align: center;
+    font-size: 4rem; /* Matches "Create an Event" */
+    color: var(--text-color);
+    margin-bottom: 3rem;
+}
+
+.heading span {
+    color: var(--main-color); /* "Event" in blue */
+}
+
+/* Remove specific #events-heading override since we’re using .heading now */
+.event-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+    gap: 2rem;
+}
+
+.event {
+    background: var(--event-bg);
+    padding: 2rem;
+    border-radius: .5rem;
+    box-shadow: 0 .4rem .6rem rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.event:hover {
+    transform: translateY(-0.5rem);
+    box-shadow: 0 1rem 2rem rgba(0,0,0,0.15);
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(-2rem); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.event.slide-in {
+    animation: slideIn 0.5s ease forwards;
+}
+
+.event-image {
+    width: 100%;
+    max-height: 15rem;
+    object-fit: cover;
+    border-radius: .5rem;
+    margin-bottom: 1rem;
+}
+
+.event h3 {
+    font-size: 2rem;
+    color: var(--text-color);
+}
+
+.event p {
+    font-size: 1.4rem;
+    color: var(--event-text);
+    margin: .5rem 0;
+}
+
+.event p:contains('Event Started!') {
+    color: var(--event-started);
+    font-weight: bold;
+}
+
+.event .rating-display {
+    font-size: 1.4rem;
+    color: #f1c40f;
+}
+
+/* Create Event Section */
+#create-event {
+    padding: 5rem 9%;
+    background: var(--bg-color);
+}
+
+#create-event form {
+    max-width: 50rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+#create-event input,
+#create-event select,
+#create-event textarea {
+    padding: 1.2rem;
+    font-size: 1.6rem;
+    border: 1px solid #ddd;
+    border-radius: .5rem;
+}
+
+#create-event textarea {
+    resize: vertical;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 1001;
+}
+
+.modal-content {
+    background: var(--card-bg);
+    margin: 10% auto;
+    padding: 2rem;
+    width: 60%;
+    max-width: 50rem;
+    border-radius: .5rem;
+    position: relative;
+    color: var(--text-color);
+}
+
+#confirmation-modal .modal-content {
+    max-width: 40rem;
+    text-align: center;
+}
+
+.modal-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.modal-content #modal-details {
+    font-size: 1.4rem;
+    color: var(--event-text);
+    margin-bottom: 1.5rem;
+}
+
+.modal-content #modal-details span {
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.modal-content #modal-description {
+    font-size: 1.6rem;
+    line-height: 1.5;
+    color: var(--description-text);
+    margin-bottom: 2rem;
+}
+
+.modal-content #invite-form input,
+.modal-content #invite-form textarea,
+.modal-content #review-comment {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.6rem;
+    border: 1px solid #ddd;
+    border-radius: .5rem;
+    margin-bottom: 1rem;
+}
+
+.modal-content #invite-form textarea,
+.modal-content #review-comment {
+    resize: vertical;
+}
+
+.star-rating {
+    font-size: 2rem;
+    margin: 1rem 0;
+}
+
+.star {
+    cursor: pointer;
+    color: #ccc;
+}
+
+.star.filled {
+    color: #f1c40f;
+}
+
+#modal-ratings h3 {
+    font-size: 2rem;
+    margin-top: 2rem;
+    color: var(--text-color);
+}
+
+#reviews-list {
+    max-height: 15rem;
+    overflow-y: auto;
+    font-size: 1.4rem;
+    color: #666;
+    margin-top: 1.5rem;
+    padding-right: 1rem;
+}
+
+#reviews-list p {
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    background: #f9f9f9;
+    border-radius: .3rem;
+}
+
+body.dark-mode #reviews-list p {
+    background: #333;
+}
+
+.close {
+    position: absolute;
+    right: 2rem;
+    top: 1rem;
+    font-size: 2.5rem;
+    cursor: pointer;
+    color: #aaa;
+}
+
+.close:hover {
+    color: var(--text-color);
+}
+
+/* Register Section */
+#register {
+    padding: 5rem 9%;
+    background: var(--bg-color);
+}
+
+#register form {
+    max-width: 50rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+#register input,
+#register select {
+    padding: 1.2rem;
+    font-size: 1.6rem;
+    border: 1px solid #ddd;
+    border-radius: .5rem;
+}
+
+/* FAQs Section */
+#faqs {
+    padding: 5rem 9%;
+    background: var(--bg-color);
+}
+
+.faq-list {
+    max-width: 70rem;
+    margin: 0 auto;
+}
+
+.faq-item {
+    margin-bottom: 2rem;
+}
+
+.faq-item h4 {
+    font-size: 2rem;
+    color: var(--main-color);
+    margin-bottom: .8rem;
+}
+
+.faq-item p {
+    font-size: 1.6rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Contact Section */
+#contact {
+    padding: 5rem 9%;
+    background: var(--card-bg);
+}
+
+#contact form {
+    max-width: 50rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+#contact input,
+#contact textarea {
+    padding: 1.2rem;
+    font-size: 1.6rem;
+    border: 1px solid #ddd;
+    border-radius: .5rem;
+}
+
+#contact textarea {
+    resize: vertical;
+}
+
+/* Challenges Section */
+#challenges {
+    padding: 5rem 9%;
+    background: var(--bg-color);
+}
+
+.challenge-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+    gap: 2rem;
+}
+
+.challenge {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: .5rem;
+    box-shadow: 0 .4rem .6rem rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.challenge h3 {
+    font-size: 2rem;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+.challenge p {
+    font-size: 1.4rem;
+    color: #666;
+}
+
+.challenge .badge {
+    font-size: 3rem;
+    margin-top: 1rem;
+    color: var(--main-color);
+}
+
+.challenge.completed .badge {
+    color: #f1c40f;
+}
+
+/* Footer */
+.footer {
+    background: var(--header-bg);
+    padding: 3rem 9%;
+    color: var(--header-text);
+    text-align: center;
+}
+
+.footer .socials a {
+    color: var(--header-text);
+    margin: 0 1rem;
+    font-size: 2rem;
+}
+
+.footer .socials a:hover {
+    color: var(--main-color);
+}
+
+.footer p {
+    font-size: 1.6rem;
+    color: var(--header-text); /* "© 2025" and "vent Hub" in white */
+}
+
+.footer p .blue-e {
+    color: var(--main-color); /* Only "E" is blue */
+}
+
+/* Smooth Section Transitions */
+section {
+    opacity: 0;
+    animation: fadeInSection 1s ease forwards;
+}
+
+@keyframes fadeInSection {
+    from { opacity: 0; transform: translateY(2rem); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Dark Mode */
+body.dark-mode {
+    --bg-color: #222;
+    --text-color: #f0f0f0;
+    --card-bg: #333;
+    --event-bg: #2a3e50;
+    --event-text: #b0c4de;
+    --event-started: #ff6f61;
+    --description-text: #d3e0ea;
+}
+
+/* Media Queries */
+@media (max-width: 991px) {
+    html { font-size: 55%; }
+    .header { padding: 1.5rem 2rem; }
+    section { padding: 2rem; }
+}
+
+@media (max-width: 768px) {
+    #menu-bars { display: block; }
+    .header {
+        padding: 1rem 2rem;
+    }
+    .header .logo {
+        font-size: 2rem;
+    }
+    .mode-toggle {
+        font-size: 1.8rem;
+    }
+    #menu-bars {
+        font-size: 2.5rem;
+    }
+    .header .navbar {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--header-bg);
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+    }
+    .header .navbar.active {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+    .header .navbar a {
+        display: block;
+        margin: 1.5rem;
+        padding: 1.5rem;
+        background: #222;
+        border-radius: .5rem;
+    }
+    .mode-toggle {
+        margin-right: 1.5rem;
+    }
+    #filter {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1.5rem 2rem;
+    }
+    #filter select,
+    #filter input {
+        width: 100%;
+        max-width: 25rem;
+        margin: 0.5rem 0;
+        padding: 0.8rem;
+        font-size: 1.4rem;
+    }
+    .event-image {
+        max-height: 10rem;
+    }
+    .event .btn {
+        display: block;
+        width: 100%;
+        margin: 0.5rem 0;
+        padding: 0.8rem 1.5rem;
+        font-size: 1.5rem;
+    }
+    #create-event input,
+    #create-event select,
+    #create-event textarea,
+    #register input,
+    #register select,
+    #contact input,
+    #contact textarea,
+    .modal-content #invite-form input,
+    .modal-content #invite-form textarea,
+    .modal-content #review-comment {
+        padding: 0.8rem;
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
+    }
+    #create-event form,
+    #register form,
+    #contact form {
+        gap: 1rem;
+    }
+    .modal-content {
+        width: 90%;
+        max-width: 35rem;
+        margin: 5% auto;
+        padding: 1.5rem;
+    }
+    #confirmation-modal .modal-content {
+        max-width: 30rem;
+    }
+    .modal-content h2 {
+        font-size: 2rem;
+    }
+    .modal-content #modal-details,
+    .modal-content #modal-description {
+        font-size: 1.3rem;
+    }
+    .faq-item h4 {
+        font-size: 1.8rem;
+    }
+    .faq-item p {
+        font-size: 1.4rem;
+    }
+}
